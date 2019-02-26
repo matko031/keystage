@@ -1,0 +1,46 @@
+{% extends "main/header.html" %}
+
+
+
+{% block content %}
+
+
+  <div class="row">
+
+    {% if user.is_authenticated %}
+
+      {% for word in content %}
+      <div class="col s12 m6">
+        <div class="card blue-grey darken-1">
+          <div class="card-content white-text">
+            <span class="card-title">Title<span>
+              <p style="font-size:70%">{{word}}</p>
+          </div>
+          <div class="card-action">
+            <a href="#">Visit</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+
+
+    {% else %}
+       <div class="col s12 m6">
+        <div class="card blue-grey darken-1">
+          <div class="card-content white-text">
+            <span class="card-title">Welcome<span>
+              <p style="font-size:70%">Welcome to Keystage! Click the link below to register</p>
+          </div>
+          <div class="card-action">
+            <a href="register/">Register</a>
+          </div>
+        </div>
+      </div>
+
+
+    {%endif%}
+
+  </div>
+
+
+{% endblock %}
