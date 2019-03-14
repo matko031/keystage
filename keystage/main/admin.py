@@ -11,16 +11,16 @@ from .models import CustomUser, student_profile, company_internship, took_intern
 
 
 
-class CustomUserAdmin(UserAdmin):
+class CustomUserAdmin(admin.ModelAdmin):
     model = CustomUser
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
 
 
-
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(student_profile)
-
+admin.site.register(company_internship)
+admin.site.register(took_internship)
 
 
 """

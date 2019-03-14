@@ -11,6 +11,7 @@ class CustomUserManager(UserManager):
 class CustomUser(AbstractUser):
     objects = CustomUserManager()
     type = models.CharField(max_length=1, choices=(('c','company'), ('s','student')))
+    address = models.CharField(max_length=100)
 
 
 class student_profile(models.Model):

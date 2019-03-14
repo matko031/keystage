@@ -39,7 +39,6 @@ def single_slug(request, single_slug):
 def account(request):
     user_type = request.user.type
     test_list = list(student_profile._meta.get_fields())
-    print(test_list[0].name)
     if request.method == 'POST':
         user_type = request.user.type
         if user_type == 's':
@@ -67,7 +66,7 @@ def homepage(request):
         context={"content": ["These", "are", "some", "nice", "cards"], }
     )
 
-def register(request):
+def register_student(request):
 
     if request.method == "POST":
         form = CustomUserCreationForm(request.POST)
@@ -86,9 +85,37 @@ def register(request):
     form = CustomUserCreationForm(request.POST)
     return render(
         request,
-        "main/register.html",
+        "main/register_user.html",
         context={"form":form}
        )
+
+
+
+def register_company(request):
+
+    if request.method == "POST":
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, f"New Account Created:{username}")
+            login(request, user)
+            messages.info(request, f"You are now logged in as {username}")
+            return redirect('main:homepage')
+        else:
+            for msg in form.error_messages:
+                messages.error(request, f"{msg}: form.error_messages[msg]")
+
+
+    form = CustomUserCreationForm(request.POST)
+    return render(
+        request,
+        "main/register_user.html",
+        context={"form":form}
+       )
+
+def register(request):
+    return render(request, 'main/register.html')
 
 def logout_request(request):
     logout(request)
