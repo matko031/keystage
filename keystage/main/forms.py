@@ -1,12 +1,12 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from .models import CustomUser, profile_categories
+from .models import CustomUser,student_profile
 
 class CustomUserCreationForm(UserCreationForm):
 
     class Meta(UserCreationForm):
         model = CustomUser
-        fields = ('username', 'email')
+        fields = ('username', 'email', 'type')
 
 class CustomUserChangeForm(UserChangeForm):
 
@@ -15,9 +15,9 @@ class CustomUserChangeForm(UserChangeForm):
         fields = UserChangeForm.Meta.fields
 
 
-class profile_form(forms.ModelForm):
+class student_profile_form(forms.ModelForm):
 
     class Meta:
-        model = profile_categories
-        fields = ['faculty', 'year', 'interests']
+        model = student_profile
+        fields = [str(field.name) for field in list(student_profile._meta.get_fields())]
 

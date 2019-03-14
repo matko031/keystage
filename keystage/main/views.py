@@ -3,8 +3,8 @@ from django.http import HttpResponse
 from django.contrib.auth.forms import  AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
-from .forms import CustomUserCreationForm, profile_form
-from .models import profile_categories
+from .forms import CustomUserCreationForm, student_profile_form
+from .models import student_profile
 
 
 def single_slug(request, single_slug):
@@ -37,20 +37,24 @@ def single_slug(request, single_slug):
 
 
 def account(request):
-    print("account page")
+    user_type = request.user.type
+    test_list = list(student_profile._meta.get_fields())
+    print(test_list[0].name)
     if request.method == 'POST':
-        print("POST method")
-        form = profile_form(request.POST)
+        user_type = request.user.type
+        if user_type == 's':
+            form = student_profile_form(request.POST)
+        else:
+            form = student_profile_form(request.POST)
         if form.is_valid():
-            print("form is valid")
-            update = profile_categories(
+            update = student_profile(
             faculty = form.cleaned_data['faculty'],
             year = form.cleaned_data['year'],
             interests = form.cleaned_data['interests'])
             update.save()
 
     name = request.user.username
-    form =  profile_form
+    form =  student_profile_form
     return render(
         request, "main/account.html", {"name":name, "form":form}
     )
