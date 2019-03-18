@@ -12,18 +12,26 @@ class CustomUser(AbstractUser):
     objects = CustomUserManager()
     type = models.CharField(max_length=1, choices=(('c','company'), ('s','student')))
     address = models.CharField(max_length=100)
+    phone = models.CharField(max_length=100,  null= True, blank=True, default = None)
 
 
 class student_profile(models.Model):
-    student = models.ForeignKey(CustomUser, default=None, on_delete=models.SET_DEFAULT)
-    faculty = models.CharField(max_length=200)
-    study_year = models.IntegerField(validators=[MaxValueValidator(10)])
-    interests = models.CharField(max_length=1000)
-    cv = models.CharField(max_length=50)
-    description = models.TextField()
-    photo = models.CharField(max_length=50)
-    internship_period = models.DateTimeField()
+    student = models.ForeignKey(CustomUser, default=None, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=100, blank = False, default="a")
+    last_name = models.CharField(max_length=100, blank = False, default="a")
+    faculty = models.CharField(max_length=200, default="a")
+    study_year = models.IntegerField(validators=[MaxValueValidator(10)], default=1)
+    interests = models.CharField(max_length=1000, default="a")
+    cv = models.CharField(max_length=50, default="a")
+    description = models.TextField(default="a")
+    photo = models.CharField(max_length=50, default="a")
+    internship_period = models.DateTimeField(default = datetime.now(),null=True, blank = True)
 
+
+class company_profile(models.Model):
+    company = models.ForeignKey(CustomUser, default=None, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100, blank = False)
+    sector = models.CharField(max_length=200, blank = False)
 
 
 class company_internship(models.Model):

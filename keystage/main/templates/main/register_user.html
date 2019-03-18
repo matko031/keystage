@@ -4,10 +4,34 @@
 
 {% block content %}
 
+
     <form method="POST">
 
         {% csrf_token %}
-        {{form.as_p}}
+
+        {{form.non_field_errors}}
+        {{form.source_errors}}
+        {{form.source}}
+
+        {% for error in form.non_field_errors %}
+            {{ error }}
+        {% endfor %}
+
+
+        {%for form in forms%}
+            {% for field in form.visible_fields%}
+                {{field.label_tag}} <br>
+                {{field}}<br>
+                {{field.help_text}}<br>
+                <br>
+            {%endfor%}
+
+
+            {% for field in form.hidden_fields%}
+                {{hidden_field}}
+            {%endfor%}
+
+        {%endfor%}
         <button class="btn" type="submit">Register</button>
     </form>
 

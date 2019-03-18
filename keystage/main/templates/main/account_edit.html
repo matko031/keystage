@@ -1,0 +1,20 @@
+{% extends "main/header.html" %}
+
+
+
+{% block content %}
+
+
+  <div class="row">
+
+  This is edit form <br>
+      <form method = POST>
+        {% csrf_token %}
+          {{form}}
+        <button class = "btn" type="submit"> Save </button>
+      </form>
+
+  </div>
+
+
+{% endblock %}

@@ -10,14 +10,17 @@
     <div class="col s12 m6">
 
           This is your profile, {{name}}
+          <br>
     </div>
+    <br>
+    {% for key, value in info.items %}
+    <p>{{key}}</p>
+    <p>{{value}}</p>
+      {% endfor %}
+
+    <a href="/account_edit">Edit</a>
 
   </div>
-    <form method="POST">
-        {% csrf_token %}
-        {{form.as_p}}
-        <button class="btn" type="submit">Submit</button>
-    </form>
 
 
 {% endblock %}

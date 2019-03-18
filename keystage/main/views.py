@@ -3,8 +3,8 @@ from django.http import HttpResponse
 from django.contrib.auth.forms import  AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
-from .forms import CustomUserCreationForm, student_profile_form
-from .models import student_profile
+from .forms import register_user_form, register_student_form, register_company_form, account_form, CustomUserChangeForm
+from .models import student_profile, company_profile
 
 
 def single_slug(request, single_slug):
@@ -38,25 +38,43 @@ def single_slug(request, single_slug):
 
 def account(request):
     user_type = request.user.type
-    test_list = list(student_profile._meta.get_fields())
-    if request.method == 'POST':
-        user_type = request.user.type
-        if user_type == 's':
-            form = student_profile_form(request.POST)
-        else:
-            form = student_profile_form(request.POST)
-        if form.is_valid():
-            update = student_profile(
-            faculty = form.cleaned_data['faculty'],
-            year = form.cleaned_data['year'],
-            interests = form.cleaned_data['interests'])
-            update.save()
+    user = request.user
 
-    name = request.user.username
-    form =  student_profile_form
+    if user.type == 'c':
+        name = company_profile.objects.get(company = user).name
+        info = company_profile.objects.all().filter(company= user).values()[0]
+        entries_to_remove = ('id', 'company_id')
+
+    elif user.type == 's':
+        first_name = student_profile.objects.all().get(student = user).first_name
+        last_name = student_profile.objects.get(student = user).last_name
+        name = first_name + " " + last_name
+        info = student_profile.objects.all().filter(student = user).values()[0]
+        entries_to_remove = ('id', 'student_id')
+
+    for entry in entries_to_remove:
+        info.pop(entry, None)
+
+    print(info)
     return render(
-        request, "main/account.html", {"name":name, "form":form}
+        request, "main/account.html", {"name":name, "info": info}
     )
+
+
+def account_edit(request):
+
+    profile = student_profile.objects.get(student = request.user)
+    print(profile)
+    form = CustomUserChangeForm(request.POST, instance = request.user)
+
+    if request.method == "POST":
+        if form.is_valid():
+            print("form is valid")
+            form.save()
+
+        return redirect("main:homepage")
+
+    return render(request, 'main/account_edit.html', {'form':form})
 
 
 def homepage(request):
@@ -68,51 +86,75 @@ def homepage(request):
 
 def register_student(request):
 
+    form1 = register_user_form(request.POST, prefix='register_user')
+    form2 = register_student_form(request.POST, prefix='register_student')
+
     if request.method == "POST":
-        form = CustomUserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            username = form.cleaned_data.get('username')
+        if form1.is_valid() and form2.is_valid():
+
+            user = form1.save(commit=False)
+            user.type='s'
+            user.set_password( form1.cleaned_data.get('password') )
+            user.save()
+
+            profile = form2.save(commit=False)
+            profile.student = user
+            profile.save()
+
+            username = form1.cleaned_data.get('username')
             messages.success(request, f"New Account Created:{username}")
             login(request, user)
             messages.info(request, f"You are now logged in as {username}")
             return redirect('main:homepage')
+
+        elif not form1.is_valid():
+            messages.error(request, "register_user not_valid")
         else:
-            for msg in form.error_messages:
-                messages.error(request, f"{msg}: form.error_messages[msg]")
+            messages.error(request,"register_student not valid")
 
-
-    form = CustomUserCreationForm(request.POST)
     return render(
         request,
         "main/register_user.html",
-        context={"form":form}
+        context={"forms":[form1, form2]}
        )
 
 
 
 def register_company(request):
 
+    form1 = register_company_form(request.POST, prefix='register_company')
+    form2 = register_user_form(request.POST, prefix='register_user')
+
     if request.method == "POST":
-        form = CustomUserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            username = form.cleaned_data.get('username')
+        if form1.is_valid() and form2.is_valid():
+
+            user = form2.save(commit=False)
+            user.type='c'
+            user.set_password( form1.cleaned_data.get('password') )
+            user.save()
+
+            profile = form1.save(commit=False)
+            profile.company = user
+            profile.save()
+
+            username = form1.cleaned_data.get('username')
             messages.success(request, f"New Account Created:{username}")
             login(request, user)
             messages.info(request, f"You are now logged in as {username}")
             return redirect('main:homepage')
+
+        elif not form1.is_valid():
+            messages.error(request, "register_user not_valid")
         else:
-            for msg in form.error_messages:
-                messages.error(request, f"{msg}: form.error_messages[msg]")
+            messages.error(request,"register_student not valid")
 
-
-    form = CustomUserCreationForm(request.POST)
     return render(
         request,
         "main/register_user.html",
-        context={"form":form}
+        context={"forms":[form1, form2]}
        )
+
+
 
 def register(request):
     return render(request, 'main/register.html')
@@ -126,12 +168,15 @@ def login_request(request):
 
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
+        print(request.POST)
+        if form.is_valid() or True:
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
+                print("login succesfull")
+                print(request.user.password)
                 messages.info(request, f"You are now logged in as {username}")
                 return redirect("main:homepage")
             else:

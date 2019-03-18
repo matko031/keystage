@@ -4,8 +4,8 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
 
-from .forms import CustomUserCreationForm, CustomUserChangeForm
-from .models import CustomUser, student_profile, company_internship, took_internship
+from .forms import register_user_form, CustomUserChangeForm
+from .models import *
 
 
 
@@ -13,7 +13,7 @@ from .models import CustomUser, student_profile, company_internship, took_intern
 
 class CustomUserAdmin(admin.ModelAdmin):
     model = CustomUser
-    add_form = CustomUserCreationForm
+    add_form = register_user_form
     form = CustomUserChangeForm
 
 
@@ -21,6 +21,7 @@ admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(student_profile)
 admin.site.register(company_internship)
 admin.site.register(took_internship)
+admin.site.register(company_profile)
 
 
 """
