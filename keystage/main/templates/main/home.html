@@ -3,25 +3,20 @@
 
 
 {% block content %}
+<style>
+  #particles-js{
+    height:100%;
+    background: crimson;
+  }
 
+</style>
 
   <div class="row">
 
     {% if user.is_authenticated %}
-
-      {% for word in content %}
-      <div class="col s12 m6">
-        <div class="card blue-grey darken-1">
-          <div class="card-content white-text">
-            <span class="card-title">Title<span>
-              <p style="font-size:70%">{{word}}</p>
-          </div>
-          <div class="card-action">
-            <a href="#">Visit</a>
-          </div>
-        </div>
-      </div>
-      {% endfor %}
+    <div id = "particles-js"></div>
+    <script type="text/javascript" src = "particles.js" ></script>
+    <script type="text/javascript" src = "app.js" ></script>
 
 
     {% else %}

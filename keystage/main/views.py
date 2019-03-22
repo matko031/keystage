@@ -3,10 +3,11 @@ from django.http import HttpResponse
 from django.contrib.auth.forms import  AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
-from .forms import register_user_form, register_student_form, register_company_form, account_form, CustomUserChangeForm
-from .models import student_profile, company_profile
+from .forms import register_user_form, register_student_form, register_company_form, account_form, CustomUserChangeForm, add_internship_form
+from .models import student_profile, company_profile, company_internships, took_internship
 
 
+"""
 def single_slug(request, single_slug):
     categories = [c.category_slug for c in TutorialCategory.objects.all()]
     if single_slug in categories:
@@ -34,6 +35,28 @@ def single_slug(request, single_slug):
                        "this_tutorial_idx":this_tutorial_idx})
 
     return HttpResponse(f"{single_slug} doesn't correspond to anything.")
+"""
+
+def internships(request):
+   current_company = request.user
+   internships = company_internships.objects.filter(company=current_company).values('name', 'target_faculty')
+
+   return render(request, "main/company_internships.html", {"internships":internships})
+
+def add_internship(request):
+
+    form = add_internship_form(request.POST)
+
+    if request.method == 'POST':
+        if form.is_valid():
+
+            internship = form.save(commit=False)
+            internship.company = request.user
+            internship.save()
+
+        return redirect("main:homepage")
+
+    return render(request, "main/add_internship.html", {"form": form})
 
 
 def account(request):
@@ -45,6 +68,11 @@ def account(request):
         info = company_profile.objects.all().filter(company= user).values()[0]
         entries_to_remove = ('id', 'company_id')
 
+        for entry in entries_to_remove:
+            info.pop(entry, None)
+
+        return render(request, "main/account_company.html", {"name":name, "info": info} )
+
     elif user.type == 's':
         first_name = student_profile.objects.all().get(student = user).first_name
         last_name = student_profile.objects.get(student = user).last_name
@@ -52,24 +80,21 @@ def account(request):
         info = student_profile.objects.all().filter(student = user).values()[0]
         entries_to_remove = ('id', 'student_id')
 
-    for entry in entries_to_remove:
-        info.pop(entry, None)
+        for entry in entries_to_remove:
+            info.pop(entry, None)
 
-    print(info)
-    return render(
-        request, "main/account.html", {"name":name, "info": info}
-    )
+        return render(request, "main/account_student.html", {"name":name, "info": info} )
+
+
 
 
 def account_edit(request):
 
     profile = student_profile.objects.get(student = request.user)
-    print(profile)
     form = CustomUserChangeForm(request.POST, instance = request.user)
 
     if request.method == "POST":
         if form.is_valid():
-            print("form is valid")
             form.save()
 
         return redirect("main:homepage")
@@ -78,6 +103,10 @@ def account_edit(request):
 
 
 def homepage(request):
+
+    fields = [str(field.name) for field in list(company_internships._meta.get_fields())]
+    fields = [str(field.name) for field in list(took_internship._meta.get_fields())]
+    print(fields)
     return render(
         request=request,
         template_name='main/home.html',
@@ -115,7 +144,7 @@ def register_student(request):
     return render(
         request,
         "main/register_user.html",
-        context={"forms":[form1, form2]}
+        context={"forms":[form1 ]}
        )
 
 
@@ -130,7 +159,7 @@ def register_company(request):
 
             user = form2.save(commit=False)
             user.type='c'
-            user.set_password( form1.cleaned_data.get('password') )
+            user.set_password( form2.cleaned_data.get('password') )
             user.save()
 
             profile = form1.save(commit=False)
@@ -168,15 +197,12 @@ def login_request(request):
 
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
-        print(request.POST)
         if form.is_valid() or True:
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                print("login succesfull")
-                print(request.user.password)
                 messages.info(request, f"You are now logged in as {username}")
                 return redirect("main:homepage")
             else:

@@ -17,15 +17,15 @@ class CustomUser(AbstractUser):
 
 class student_profile(models.Model):
     student = models.ForeignKey(CustomUser, default=None, on_delete=models.CASCADE)
-    first_name = models.CharField(max_length=100, blank = False, default="a")
-    last_name = models.CharField(max_length=100, blank = False, default="a")
-    faculty = models.CharField(max_length=200, default="a")
-    study_year = models.IntegerField(validators=[MaxValueValidator(10)], default=1)
-    interests = models.CharField(max_length=1000, default="a")
-    cv = models.CharField(max_length=50, default="a")
-    description = models.TextField(default="a")
-    photo = models.CharField(max_length=50, default="a")
-    internship_period = models.DateTimeField(default = datetime.now(),null=True, blank = True)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    faculty = models.CharField(max_length=200, blank=True, null=True, default=None)
+    study_year = models.IntegerField(validators=[MaxValueValidator(10)], blank=True, null=True, default=None)
+    interests = models.CharField(max_length=1000, blank=True, null=True, default=None)
+    cv = models.CharField(max_length=50, blank=True, null=True, default=None)
+    description = models.TextField(blank=True, null=True, default=None)
+    photo = models.CharField(max_length=50, blank=True, null=True, default=None)
+    internship_period = models.DateTimeField(null=True, blank = True, default=None)
 
 
 class company_profile(models.Model):
@@ -34,17 +34,18 @@ class company_profile(models.Model):
     sector = models.CharField(max_length=200, blank = False)
 
 
-class company_internship(models.Model):
+class company_internships(models.Model):
+    company = models.ForeignKey(CustomUser, default = None, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
-    target_faculty = models.CharField(max_length=100)
-    internship_period = models.DateTimeField()
-    target_study_year = models.IntegerField()
-    company = models.ForeignKey(CustomUser, default = None, on_delete=models.SET_DEFAULT)
+    target_faculty = models.CharField(max_length=100, default=None, null=True, blank=True)
+    internship_period = models.DateTimeField(blank=True, null=True, default=None)
+    target_study_year = models.IntegerField(blank=True, null=True, default=None)
+    description = models.TextField(blank = True, null= True, default=None)
 
 
 class took_internship(models.Model):
     student = models.ForeignKey(CustomUser, default = None, on_delete=models.SET_DEFAULT)
-    internship = models.ForeignKey(company_internship, default=None, on_delete=models.SET_DEFAULT)
+    internship = models.ForeignKey(company_internships, default=None, on_delete=models.SET_DEFAULT)
 
 
 

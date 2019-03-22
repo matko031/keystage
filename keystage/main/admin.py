@@ -19,7 +19,7 @@ class CustomUserAdmin(admin.ModelAdmin):
 
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(student_profile)
-admin.site.register(company_internship)
+admin.site.register(company_internships)
 admin.site.register(took_internship)
 admin.site.register(company_profile)
 

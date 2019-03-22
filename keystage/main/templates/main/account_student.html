@@ -4,7 +4,6 @@
 
 {% block content %}
 
-
   <div class="row">
 
     <div class="col s12 m6">
@@ -13,10 +12,16 @@
           <br>
     </div>
     <br>
-    {% for key, value in info.items %}
-    <p>{{key}}</p>
-    <p>{{value}}</p>
+  </div>
+
+    <ul class="list-group"
+
+      {% for key, value in info.items %}
+      <li class=" list-group-item list-group-item-primary">{{key}}</li>
+      <li class = "list-group-item">{{value}}</li>
       {% endfor %}
+
+    </ul>
 
     <a href="/account_edit">Edit</a>
 

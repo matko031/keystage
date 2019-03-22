@@ -1,0 +1,42 @@
+{% extends "main/header.html" %}
+
+
+
+{% block content %}
+
+
+  <div class="row">
+
+  This is edit form
+  </div>
+  <div class = "row">
+      <form method = POST autocomplete="off">
+        {% csrf_token %}
+
+        {{form.non_field_errors}}
+        {{form.source_errors}}
+        {{form.source}}
+
+        {% for error in form.non_field_errors %}
+            {{ error }}
+        {% endfor %}
+
+        {% for field in form.visible_fields%}
+            {{field.label_tag}} <br>
+            {{field}}<br>
+            {{field.help_text}}<br>
+            <br>
+
+
+            {% for field in form.hidden_fields%}
+                {{hidden_field}}
+            {%endfor%}
+
+        {%endfor%}
+        <button class = "btn" type="submit"> Save </button>
+      </form>
+
+  </div>
+
+
+{% endblock %}
