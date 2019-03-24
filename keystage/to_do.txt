@@ -1,6 +1,9 @@
 address niet bij de registratie -> alleen de stad
 instellen van regio waar je een stage wilt
-faculty and study year also not during the registration
+
+
+edit user
+
 
 
 - random fun fact

@@ -1,0 +1,5 @@
+Info die bedrijf moet geven om een student te krijgen:
+- welke faculteit
+- jaar
+- duur
+- extra comentaar

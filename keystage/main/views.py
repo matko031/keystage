@@ -37,9 +37,14 @@ def single_slug(request, single_slug):
     return HttpResponse(f"{single_slug} doesn't correspond to anything.")
 """
 
+def delete_internship(request, internship_id):
+    internship = company_internships.objects.get(id=internship_id)
+    internship.delete()
+    return redirect('main:homepage')
+
 def internships(request):
    current_company = request.user
-   internships = company_internships.objects.filter(company=current_company).values('name', 'target_faculty')
+   internships = company_internships.objects.filter(company=current_company).values('name', 'target_faculty', 'id')
 
    return render(request, "main/company_internships.html", {"internships":internships})
 
@@ -90,11 +95,14 @@ def account(request):
 
 def account_edit(request):
 
-    profile = student_profile.objects.get(student = request.user)
-    form = CustomUserChangeForm(request.POST, instance = request.user)
+    user = request.user
+
+    form = register_user_form( instance = request.user)
 
     if request.method == "POST":
+        print("post request")
         if form.is_valid():
+            print("form is valid")
             form.save()
 
         return redirect("main:homepage")
@@ -104,9 +112,6 @@ def account_edit(request):
 
 def homepage(request):
 
-    fields = [str(field.name) for field in list(company_internships._meta.get_fields())]
-    fields = [str(field.name) for field in list(took_internship._meta.get_fields())]
-    print(fields)
     return render(
         request=request,
         template_name='main/home.html',

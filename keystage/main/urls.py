@@ -14,6 +14,7 @@ urlpatterns = [
     path('account_edit/', views.account_edit, name='account_edit'),
     path('add_internship/', views.add_internship, name='account_edit'),
     path('internships/', views.internships, name='internships'),
+    path('delete/internship/<internship_id>', views.delete_internship, name='delete_internship'),
     #path('<single_slug>', views.single_slug, name='single_slug'),
 
 ]
