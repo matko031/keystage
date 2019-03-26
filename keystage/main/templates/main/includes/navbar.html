@@ -1,15 +1,36 @@
-<nav>
-    <div class="nav-wrapper">
-        <a href="/" class="brand-logo">Keystage</a>
-        <ul id="nav-mobile" class="right hide-on-small-and-down">
-            <li><a href="/">Home</a></li>
 
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active mr-5">
+                <a class="nav-link" href="/"> <h3>Keystage</h3></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#what_is_keystage">What is Keystage</a>
+
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#how_does_it_work">How does it work</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#about_us">About us</a>
+            </li>
+        </ul>
+    </div>
+
+
+    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+        <ul class="navbar-nav ml-auto">
             {% if user.is_authenticated %}
-                <li><a href="/account">{{user.username}}</a></li>
-                <li><a href="/logout">Logout</a></li>
+                <li class="nav-item"><a class='nav-link' href="/account">{{user.username}}</a></li>
+                <li class="nav-item"><a class='nav-link' href="/logout">Logout</a></li>
             {% else %}
-            <li><a href="/register">Register</a></li>
-            <li><a href="/login">Login</a></li>
+                <li class="nav-item"><a class='nav-link'  href="/register">Register</a></li>
+                <li class="nav-item"><a class='nav-link'  href="/login">Login</a></li>
             {% endif %}
         </ul>
     </div>

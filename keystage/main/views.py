@@ -36,6 +36,7 @@ def single_slug(request, single_slug):
 
     return HttpResponse(f"{single_slug} doesn't correspond to anything.")
 """
+lorem_ipsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce pulvinar non nunc eget blandit. Vestibulum semper nisi in vehicula porta. Suspendisse potenti. Maecenas consequat urna at dolor vehicula, id sodales metus dapibus. Maecenas id felis eu ante pellentesque efficitur. Nunc pulvinar condimentum rhoncus. Vivamus tincidunt vitae ex nec vestibulum. Quisque ullamcorper faucibus placerat. Nam tempor velit lacus, non feugiat mi tempor id. Ut interdum vehicula purus, ut dapibus odio. Nullam sit amet felis nec nunc ullamcorper finibus finibus non libero. Morbi non eleifend dolor. Nam tincidunt egestas ipsum vel pulvinar. Sed justo orci, aliquam ut bibendum ut, laoreet vitae ex."
 
 def delete_internship(request, internship_id):
     internship = company_internships.objects.get(id=internship_id)
@@ -115,7 +116,7 @@ def homepage(request):
     return render(
         request=request,
         template_name='main/home.html',
-        context={"content": ["These", "are", "some", "nice", "cards"], }
+        context={"lorem_ipsum":lorem_ipsum }
     )
 
 def register_student(request):

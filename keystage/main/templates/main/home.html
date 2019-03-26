@@ -1,44 +1,110 @@
 {% extends "main/header.html" %}
-
+{% load static %}
 
 
 {% block content %}
-<style>
-  #particles-js{
-    height:100%;
-    background: crimson;
-  }
-
-</style>
-
-  <div class="row">
-
-    {% if user.is_authenticated %}
-    <div id = "particles-js"></div>
-    <script type="text/javascript" src = "particles.js" ></script>
-    <script type="text/javascript" src = "app.js" ></script>
-
-
-    {% else %}
-       <div class="col s12 m6">
-        <div class="card blue-grey darken-1">
-          <div class="card-content white-text">
-            <span class="card-title">Welcome<span>
-              <p style="font-size:70%">Welcome to Keystage! Click the link below to register</p>
-          </div>
-          <div class="card-action">
-            <a href="register/">Register</a>
-          </div>
-        </div>
-      </div>
 
 
 
 
 
-    {%endif%}
+{% if user.is_authenticated %}
 
+<div class="row">
+<div class="col-12">
+<div class="card bg-light mb-3" >
+  <div class="card-header">Welcome</div>
+  <div class="card-body">
+    <h5 class="card-title">Welcome to keystage</h5>
+    <p class="card-text">Welcome to Keystage! Click the link below to register</p>
+    <br>
+    <a href="register/"> <button class="btn btn-primary">Register</button> </a>
   </div>
+</div>
+</div>
+</div>
+
+{% endif %}
 
 
+<div class="row">
+    <p><h1><strong>Fun fact of the day:</strong> A mole can dig a tunnel of more than 750 meters in less than one night</h1></p>
+</div>
+
+
+
+<a name="what_is_keystage"></a>
+
+<div class = "row mb-5 mt-5">
+    <p><h2><strong>What is keystage: </strong>{{lorem_ipsum}}</h2></p>
+</div>
+
+
+
+
+
+
+
+<h2><strong>How does it work?</strong></h2>
+
+<a name="how_does_it_work"></a>
+<div class="row">
+
+    <div class="col-1"></div>
+
+    <div class="col-4">
+    <div class="flip-card">
+        <div class="flip-card-inner">
+            <div class="flip-card-front">
+                <p>How does it work for a student</p>
+            </div>
+
+            <div class="flip-card-back">
+                5 easy steps!
+                <ol>
+                <li>Register</li>
+                <li>Fill in all the needed info</li>
+                <li>Look for the interesting internships yourself</li>
+                <li>If you don't find any, enjoy our fun facts on the front page and we will contact you as soon as there's an internship which corresponds to your profile</li>
+                <li>Go to your internship!</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <div class="col-2"></div>
+
+    <div class="col-4">
+    <div class="flip-card">
+        <div class="flip-card-inner">
+            <div class="flip-card-front">
+                <p>How does it work for a company</p>
+            </div>
+
+            <div class="flip-card-back">
+                5 easy steps!
+                <ol>
+                <li>Register</li>
+                <li>Go to your profile and create your first internship</li>
+                <li>Fill in all the internship info</li>
+                <li>Enjoy our fun facts on the front page while we look for a student with a profile that matches your needs</li>
+                <li>Teach a student lots of useful things during the internship!</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+</div>
+
+
+
+
+<div class="row">
+    <a name="about_us"></a>
+    <p><h2><strong>About us: </strong>{{lorem_ipsum}}</h2></p>
+
+</div>
 {% endblock %}

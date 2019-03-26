@@ -41,6 +41,7 @@ class company_internships(models.Model):
     internship_period = models.DateTimeField(blank=True, null=True, default=None)
     target_study_year = models.IntegerField(blank=True, null=True, default=None)
     description = models.TextField(blank = True, null= True, default=None)
+    student_interests = models.TextField(blank = True, null = True, default= None)
 
 
 class took_internship(models.Model):
