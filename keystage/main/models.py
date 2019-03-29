@@ -16,7 +16,7 @@ class CustomUser(AbstractUser):
 
 
 class student_profile(models.Model):
-    student = models.ForeignKey(CustomUser, default=None, on_delete=models.CASCADE)
+    student = models.ForeignKey(CustomUser, default=None, on_delete=models.CASCADE, related_name='student_profile')
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     faculty = models.CharField(max_length=200, blank=True, null=True, default=None)
@@ -52,38 +52,3 @@ class took_internship(models.Model):
 
 
 
-"""
-class TutorialCategory(models.Model):
-    tutorial_category = models.CharField(max_length=200)
-    category_summary = models.CharField(max_length=200)
-    category_slug = models.CharField(max_length=200)
-
-    class Meta:
-        verbose_name_plural = "Categories"
-
-    def __str__(self):
-        return self.tutorial_category
-
-class TutorialSeries(models.Model):
-    tutorial_series = models.CharField(max_length=200)
-    tutorial_category = models.ForeignKey(TutorialCategory, default=1, verbose_name="Category", on_delete=models.SET_DEFAULT)
-    series_summary = models.CharField(max_length=200)
-
-
-    class Meta:
-        verbose_name_plural = "Series"
-
-    def __str__(self):
-        return self.tutorial_series
-
-class Tutorial(models.Model):
-    tutorial_title = models.CharField(max_length=200)
-    tutorial_content = models.TextField()
-    tutorial_published = models.DateTimeField("date published", default=datetime.now())
-
-    tutorial_series = models.ForeignKey(TutorialSeries, default=1, verbose_name="Series", on_delete=models.SET_DEFAULT)
-    tutorial_slug = models.CharField(max_length=200, default=1)
-
-    def __str__(self):
-        return self.tutorial_title
-"""

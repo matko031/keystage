@@ -15,6 +15,5 @@ urlpatterns = [
     path('add_internship/', views.add_internship, name='account_edit'),
     path('internships/', views.internships, name='internships'),
     path('delete/internship/<internship_id>', views.delete_internship, name='delete_internship'),
-    #path('<single_slug>', views.single_slug, name='single_slug'),
-
+    path('find_internship', views.find_internship, name='find_internship')
 ]

@@ -36,8 +36,7 @@ class CustomUserChangeForm(UserChangeForm):
 
     class Meta:
         model = CustomUser
-        #fields = UserChangeForm.Meta.fields
-        fields = ['phone']
+        fields = UserChangeForm.Meta.fields
 
 class account_form(forms.ModelForm):
 

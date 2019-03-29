@@ -7,36 +7,18 @@ from .forms import register_user_form, register_student_form, register_company_f
 from .models import student_profile, company_profile, company_internships, took_internship
 
 
-"""
-def single_slug(request, single_slug):
-    categories = [c.category_slug for c in TutorialCategory.objects.all()]
-    if single_slug in categories:
-        matching_series = TutorialSeries.objects.filter(tutorial_category__category_slug=single_slug)
-        series_urls = {}
-
-        for m in matching_series.all():
-            part_one = Tutorial.objects.filter(tutorial_series__tutorial_series = m.tutorial_series).earliest("tutorial_published")
-            series_urls[m] = part_one.tutorial_slug
-        return render(request,
-                      'main/category.html',
-                      {'part_ones':series_urls})
-
-    tutorials = [t.tutorial_slug for t in Tutorial.objects.all()]
-    if single_slug in tutorials:
-        this_tutorial = Tutorial.objects.get(tutorial_slug=single_slug)
-        tutorials_from_series = Tutorial.objects.filter(tutorial_series__tutorial_series = this_tutorial.tutorial_series).order_by("tutorial_published")
-
-        this_tutorial_idx = list(tutorials_from_series).index(this_tutorial)
-
-        return render(request,
-                      "main/tutorial.html",
-                      {"tutorial":this_tutorial,
-                       "sidebar":tutorials_from_series,
-                       "this_tutorial_idx":this_tutorial_idx})
-
-    return HttpResponse(f"{single_slug} doesn't correspond to anything.")
-"""
 lorem_ipsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce pulvinar non nunc eget blandit. Vestibulum semper nisi in vehicula porta. Suspendisse potenti. Maecenas consequat urna at dolor vehicula, id sodales metus dapibus. Maecenas id felis eu ante pellentesque efficitur. Nunc pulvinar condimentum rhoncus. Vivamus tincidunt vitae ex nec vestibulum. Quisque ullamcorper faucibus placerat. Nam tempor velit lacus, non feugiat mi tempor id. Ut interdum vehicula purus, ut dapibus odio. Nullam sit amet felis nec nunc ullamcorper finibus finibus non libero. Morbi non eleifend dolor. Nam tincidunt egestas ipsum vel pulvinar. Sed justo orci, aliquam ut bibendum ut, laoreet vitae ex."
+
+def find_internship(request):
+
+    if request.user.type != 's':
+        return redirect('main:homepage')
+
+    student = request.user
+    items = company_internships.objects.filter(target_study_year = student.student_profile.study_year).values()[0]
+
+    return render(request, "main/find_internship.html", {"internships":items})
+
 
 def delete_internship(request, internship_id):
     internship = company_internships.objects.get(id=internship_id)

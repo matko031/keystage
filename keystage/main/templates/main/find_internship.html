@@ -4,29 +4,19 @@
 
 {% block content %}
 
-  <div class="row">
 
-
-          This is your profile, {{name}}
-          <br>
-    <br>
-  </div>
   <div class="row">
     <div class="col-12"
 
     <ul class="list-group">
 
-      {% for key, value in info.items %}
+      {% for key, value in internships.items %}
       <li class=" list-group-item list-group-item-primary"><strong>{{key}}:</strong></li>
       <li class = "list-group-item">{{value}}</li>
       {% endfor %}
 
     </ul>
 
-    <a href="/account_edit">Edit</a>
-    <br>
-    <a href="/find_internship">Find internship</a>
-  </div>
   </div>
 
 

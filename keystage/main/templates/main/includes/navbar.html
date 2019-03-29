@@ -1,23 +1,37 @@
+<style>
+
+    .grow { transition: all .2s ease-in-out; }
+    .grow:hover { transform: scale(1.1); }
 
 
-<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    .nav-title{
+        color: #ff2709;
+        font-weight: bold ;
+        font-size: 150%;
+    }
+
+
+</style>
+
+
+<nav class="navbar navbar-expand-md navbar-dark" style="background-color: #2E86AB">
     <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active mr-5">
                 <a class="nav-link" href="/"> <h3>Keystage</h3></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/">Home</a>
+            <li class="nav-item mr-3 ">
+                <a class="nav-link grow" href="/"> <span class="nav-title" >Home<span></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#what_is_keystage">What is Keystage</a>
+            <li class="nav-item mr-3 ml-1">
+                <a class="nav-link grow" href="#what_is_keystage"><span class="nav-title">What is Keystage</span></a>
 
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#how_does_it_work">How does it work</a>
+            <li class="nav-item mr-3">
+                <a class="nav-link grow" href="#how_does_it_work"><span class="nav-title"> How does it work </span></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#about_us">About us</a>
+            <li class="nav-item mr-3">
+                <a class="nav-link grow" href="#about_us"> <span class="nav-title" > About us </span> </a>
             </li>
         </ul>
     </div>
@@ -26,11 +40,19 @@
     <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
         <ul class="navbar-nav ml-auto">
             {% if user.is_authenticated %}
-                <li class="nav-item"><a class='nav-link' href="/account">{{user.username}}</a></li>
-                <li class="nav-item"><a class='nav-link' href="/logout">Logout</a></li>
+                <li class="nav-item ">
+                    <a class='nav-link grow' href="/account"><span class="nav-title">{{user.username}}</span></a>
+                </li>
+                <li class="nav-item grow ">
+                    <a class='nav-link' href="/logout"><span class="nav-title">Logout</span></a>
+                </li>
             {% else %}
-                <li class="nav-item"><a class='nav-link'  href="/register">Register</a></li>
-                <li class="nav-item"><a class='nav-link'  href="/login">Login</a></li>
+                <li class="nav-item">
+                    <a class='nav-link grow'  href="/register"><span class="nav-title">Register</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class='nav-link grow'  href="/login"><span class="nav-title">Login</span></a>
+                </li>
             {% endif %}
         </ul>
     </div>
