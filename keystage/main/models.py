@@ -49,6 +49,9 @@ class took_internship(models.Model):
     internship = models.ForeignKey(company_internships, default=None, on_delete=models.SET_DEFAULT)
 
 
-
+class account_labels(models.Model):
+    model = models.CharField(max_length=100)
+    field = models.CharField(max_length=100)
+    text = models.CharField(max_length=100)
 
 

@@ -22,6 +22,7 @@ admin.site.register(student_profile)
 admin.site.register(company_internships)
 admin.site.register(took_internship)
 admin.site.register(company_profile)
+admin.site.register(account_labels)
 
 
 """

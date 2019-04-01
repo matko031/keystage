@@ -3,8 +3,9 @@ from django.http import HttpResponse
 from django.contrib.auth.forms import  AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
+from django.db.models import Q
 from .forms import register_user_form, register_student_form, register_company_form, account_form, CustomUserChangeForm, add_internship_form
-from .models import student_profile, company_profile, company_internships, took_internship
+from .models import *
 
 
 lorem_ipsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce pulvinar non nunc eget blandit. Vestibulum semper nisi in vehicula porta. Suspendisse potenti. Maecenas consequat urna at dolor vehicula, id sodales metus dapibus. Maecenas id felis eu ante pellentesque efficitur. Nunc pulvinar condimentum rhoncus. Vivamus tincidunt vitae ex nec vestibulum. Quisque ullamcorper faucibus placerat. Nam tempor velit lacus, non feugiat mi tempor id. Ut interdum vehicula purus, ut dapibus odio. Nullam sit amet felis nec nunc ullamcorper finibus finibus non libero. Morbi non eleifend dolor. Nam tincidunt egestas ipsum vel pulvinar. Sed justo orci, aliquam ut bibendum ut, laoreet vitae ex."
@@ -15,9 +16,10 @@ def find_internship(request):
         return redirect('main:homepage')
 
     student = request.user
-    items = company_internships.objects.filter(target_study_year = student.student_profile.study_year).values()[0]
+    stud_profile = student_profile.objects.get(student=student)
+    internships = company_internships.objects.filter(target_study_year = stud_profile.study_year).values()[0]
 
-    return render(request, "main/find_internship.html", {"internships":items})
+    return render(request, "main/find_internship.html", {"internships":internships})
 
 
 def delete_internship(request, internship_id):
@@ -54,24 +56,28 @@ def account(request):
     if user.type == 'c':
         name = company_profile.objects.get(company = user).name
         info = company_profile.objects.all().filter(company= user).values()[0]
+        labels = account_labels.objects.filter(Q(model='company_profile') | Q(model='CustomUser')).values()[0]
+
         entries_to_remove = ('id', 'company_id')
 
         for entry in entries_to_remove:
             info.pop(entry, None)
 
-        return render(request, "main/account_company.html", {"name":name, "info": info} )
+        return render(request, "main/account_company.html", {"name":name, "info": info, 'labels':labels} )
 
     elif user.type == 's':
         first_name = student_profile.objects.all().get(student = user).first_name
         last_name = student_profile.objects.get(student = user).last_name
         name = first_name + " " + last_name
         info = student_profile.objects.all().filter(student = user).values()[0]
+        labels = account_labels.objects.all().filter(Q(model='student_profile') | Q(model='CustomUser')).values()
+        print(labels)
         entries_to_remove = ('id', 'student_id')
 
         for entry in entries_to_remove:
             info.pop(entry, None)
 
-        return render(request, "main/account_student.html", {"name":name, "info": info} )
+        return render(request, "main/account_student.html", {"name":name, "info": info, 'labels':labels} )
 
 
 
@@ -83,9 +89,7 @@ def account_edit(request):
     form = register_user_form( instance = request.user)
 
     if request.method == "POST":
-        print("post request")
         if form.is_valid():
-            print("form is valid")
             form.save()
 
         return redirect("main:homepage")

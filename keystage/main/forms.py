@@ -8,7 +8,6 @@ class register_user_form(forms.ModelForm):
     class Meta:
         model = CustomUser
         fields = ('username', 'email', 'password')
-        help_texts = {'username': " "}
 
     password = forms.CharField(widget=forms.PasswordInput)
 
@@ -46,5 +45,6 @@ class account_form(forms.ModelForm):
         model = student_profile
         fields = [str(field.name) for field in list(student_profile._meta.get_fields())]
         fields.remove('student')
+        labels={'first_name': 'first name'}
 
 
