@@ -5,20 +5,59 @@
 
 
     .nav-title{
-        color: #ff2709;
+        color: #DBDBDB;
         font-weight: bold ;
         font-size: 150%;
+    }
+
+    #footer{
+        background-color: #152739;
+        opacity: 0.6;
+        text-color: #ffffff;
+    }
+
+    .footer-title {
+        color: #feffee;
+        font-size: 200%;
+    }
+
+
+   .btn-default {
+        background-color: #770060;
+        color:#FFF;
+    }
+
+    .card-header{
+        color:#770060;
+        background-color: #770060;
+        opacity:0.7;
+    }
+
+    .card-body{
+        background-color: #d0d2d2;
+    }
+
+    .card{
+        border-color: #000000;
+    }
+
+    .welcome-area{
+        background-image: url("http://www.koenkv.be/www2/images/stories/leuven/panorama1.jpg") ;
+        background-color: #192639;
+        min-height: 75%;
+        text-align: center;
+        padding-top: 200px;
     }
 
 
 </style>
 
 
-<nav class="navbar navbar-expand-md navbar-dark" style="background-color: #2E86AB">
+<nav class="navbar navbar-expand-md navbar-dark fixed-top" style="background-color: #152739">
     <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active mr-5">
-                <a class="nav-link" href="/"> <h3>Keystage</h3></a>
+                <a class="nav-link" href="/"> <h3>KeyStage</h3></a>
             </li>
             <li class="nav-item mr-3 ">
                 <a class="nav-link grow" href="/"> <span class="nav-title" >Home<span></a>
@@ -56,4 +95,10 @@
             {% endif %}
         </ul>
     </div>
+</nav>
+
+
+
+<nav class="navbar fixed-bottom navbar-light" id="footer" >
+    <a class="navbar-brand" href="#"><span class="footer-title"></span></a>
 </nav>

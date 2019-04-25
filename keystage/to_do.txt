@@ -1,12 +1,6 @@
-address niet bij de registratie -> alleen de stad
-instellen van regio waar je een stage wilt
-
-
-edit user
+- instellen van regio waar je een stage wilt
 
 
 
-- random fun fact
-- about
-- how it works
-- about us - omdraaiende kader
+- photo kiezen
+- photo only on home page
